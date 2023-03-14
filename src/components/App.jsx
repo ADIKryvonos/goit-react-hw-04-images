@@ -45,7 +45,8 @@ export function App() {
       }
     };
     fetch();
-  }, [inputValue, page, per_page]);
+    console.log(error);
+  }, [inputValue, page, per_page, error]);
 
   const formSubmit = inputValue => {
     setInputValue(inputValue);
@@ -53,6 +54,7 @@ export function App() {
     setPage(1);
     setStatus('idle');
     setError(null);
+    setPer_page(12);
   };
 
   const loadMore = () => {
