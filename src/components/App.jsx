@@ -18,7 +18,6 @@ export function App() {
   const [showModal, setShowModal] = useState(false);
   const [largeImageURL, setlargeImageURL] = useState('');
   const [tags, setTags] = useState('');
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (inputValue === '') {
@@ -40,20 +39,17 @@ export function App() {
         setStatus('resolved');
         setShowBtn(page < Math.ceil(totalHits / per_page));
       } catch (error) {
-        setError(error);
         setStatus('rejected');
       }
     };
     fetch();
-    console.log(error);
-  }, [inputValue, page, per_page, error]);
+  }, [inputValue, page, per_page]);
 
   const formSubmit = inputValue => {
     setInputValue(inputValue);
     setPictures([]);
     setPage(1);
     setStatus('idle');
-    setError(null);
     setPer_page(12);
   };
 
@@ -97,7 +93,7 @@ export function App() {
       {status === 'pending' && <Loader />}
       {status === 'rejected' && (
         <p style={{ textAlign: 'center' }}>
-          Sorry. There are some problems, try again.
+          Sorry. There are some problems , try again.
         </p>
       )}
     </div>
