@@ -1,6 +1,6 @@
 import { BiSearch } from 'react-icons/bi';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import {
   Searchbar,
   SearchForm,
@@ -9,44 +9,38 @@ import {
   SearchFormInput,
 } from './Searchbar.styled';
 
-export class SearchBar extends Component {
-  state = {
-    inputValue: '',
+export function SearchBar({ onSubmit }) {
+  const [inputValue, setInputValue] = useState('');
+
+  const inputValueChange = e => {
+    setInputValue(e.currentTarget.value.trim().toLowerCase());
   };
 
-  inputValueChange = e => {
-    this.setState({ inputValue: e.currentTarget.value.trim().toLowerCase() });
-  };
-
-  formSubmit = e => {
+  const formSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state.inputValue);
-    this.setState({ inputValue: '' });
+    onSubmit(inputValue);
+    setInputValue('');
   };
 
-  render() {
-    const { inputValue } = this.state;
+  return (
+    <Searchbar>
+      <SearchForm onSubmit={formSubmit}>
+        <SearchFormButton type="submit">
+          <BiSearch />
+          <SearchFormLabel>Search</SearchFormLabel>
+        </SearchFormButton>
 
-    return (
-      <Searchbar>
-        <SearchForm onSubmit={this.formSubmit}>
-          <SearchFormButton type="submit">
-            <BiSearch />
-            <SearchFormLabel>Search</SearchFormLabel>
-          </SearchFormButton>
-
-          <SearchFormInput
-            type="text"
-            autocomplete="off"
-            autoFocus
-            value={inputValue}
-            onChange={this.inputValueChange}
-            placeholder="Search images and photos"
-          />
-        </SearchForm>
-      </Searchbar>
-    );
-  }
+        <SearchFormInput
+          type="text"
+          autocomplete="off"
+          autoFocus
+          value={inputValue}
+          onChange={inputValueChange}
+          placeholder="Search images and photos"
+        />
+      </SearchForm>
+    </Searchbar>
+  );
 }
 
 SearchBar.propTypes = {
